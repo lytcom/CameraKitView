@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CameraKitView</string>
+    <string name="take_picture">Take picture</string>
+    <string name="start_record_video">Start record</string>
+    <string name="stop_record_video">Stop record</string>
+    <string name="request_permission">This sample needs permission for camera and audio recording.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="flash_auto">Flash auto</string>
+    <string name="flash_off">Flash off</string>
+    <string name="flash_on">Flash on</string>
+    <string name="switch_camera">Switch camera</string>
+    <string name="aspect_ratio">Aspect ratio</string>
+</resources>
