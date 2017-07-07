@@ -640,8 +640,8 @@ public class Camera2Fragment extends Fragment implements FragmentCompat.OnReques
     }
 
     public void stop() {
-        closeCamera();
         stopBackgroundThread();
+        closeCamera();
     }
 
     /**
