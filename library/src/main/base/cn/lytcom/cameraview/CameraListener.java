@@ -2,21 +2,13 @@ package cn.lytcom.cameraview;
 
 import java.io.File;
 
-public abstract class CameraListener {
+public interface CameraListener {
 
-    public void onCameraOpened() {
+    void onCameraOpened();
 
-    }
+    void onCameraClosed();
 
-    public void onCameraClosed() {
+    void onPictureTaken(byte[] jpeg);
 
-    }
-
-    public void onPictureTaken(byte[] jpeg) {
-
-    }
-
-    public void onVideoTaken(File video) {
-
-    }
+    void onVideoTaken(File video);
 }
