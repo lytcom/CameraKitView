@@ -17,6 +17,7 @@ public class CameraView extends FrameLayout {
 
     CameraImpl mCameraImpl;
     CameraListenerWrapper mCameraListenerWrapper;
+    AutoFitTextureView mTextureView;
 
     public CameraView(@NonNull Context context) {
         this(context, null);
@@ -29,6 +30,8 @@ public class CameraView extends FrameLayout {
     public CameraView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mCameraListenerWrapper = new CameraListenerWrapper();
+        mTextureView = new AutoFitTextureView(context);
+        addView(mTextureView);
         mCameraImpl = createCameraImpl();
 
         TypedArray typedArray = context.obtainStyledAttributes(
@@ -52,9 +55,9 @@ public class CameraView extends FrameLayout {
     public CameraImpl createCameraImpl() {
         CameraImpl cameraImpl;
         if (Build.VERSION.SDK_INT < 21) {
-            cameraImpl = new Camera1(mCameraListenerWrapper);
+            cameraImpl = new Camera1(mCameraListenerWrapper, mTextureView);
         } else {
-            cameraImpl = new Camera2(mCameraListenerWrapper);
+            cameraImpl = new Camera2(mCameraListenerWrapper, mTextureView);
         }
         return cameraImpl;
     }
@@ -102,7 +105,7 @@ public class CameraView extends FrameLayout {
 
     public void start() {
         if (!mCameraImpl.start()) {
-            mCameraImpl = new Camera1(mCameraListenerWrapper);
+            mCameraImpl = new Camera1(mCameraListenerWrapper, mTextureView);
             mCameraImpl.start();
         }
     }
@@ -153,6 +156,10 @@ public class CameraView extends FrameLayout {
 
     public void takePicture() {
         mCameraImpl.takePicture();
+    }
+
+    public boolean isRecordingVideo() {
+        return mCameraImpl.isRecordingVideo();
     }
 
     public void startRecordingVideo() {

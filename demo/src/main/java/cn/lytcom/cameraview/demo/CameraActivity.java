@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import cn.lytcom.cameraview.CameraView;
+
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CameraKitFragment mCameraKitFragment;
+    private CameraView mCameraView;
 
     /**
      * The button of record video
@@ -34,14 +36,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
-        if (null == savedInstanceState) {
-            mCameraKitFragment = CameraKitFragment.newInstance();
-            getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, mCameraKitFragment)
-                .commit();
-        } else {
-            mCameraKitFragment = (CameraKitFragment) getSupportFragmentManager().findFragmentById(R.id.container);
-        }
+        mCameraView = (CameraView) findViewById(R.id.camera_view);
 
         mRecordButton = (Button) findViewById(R.id.video);
         mRecordButton.setOnClickListener(this);
@@ -61,7 +56,36 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
+    protected void onResume() {
+        super.onResume();
+        mCameraView.start();
+    }
 
+    @Override
+    protected void onPause() {
+        mCameraView.stop();
+        super.onPause();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.picture: {
+                mCameraView.takePicture();
+                break;
+            }
+            case R.id.video: {
+                if (mCameraView.isRecordingVideo()) {
+                    mCameraView.stopRecordingVideo();
+                    mRecordButton.setText(R.string.start_record_video);
+                    mPictureButton.setEnabled(true);
+                } else {
+                    mPictureButton.setEnabled(false);
+                    mCameraView.startRecordingVideo();
+                    mRecordButton.setText(R.string.stop_record_video);
+                }
+                break;
+            }
+        }
     }
 }

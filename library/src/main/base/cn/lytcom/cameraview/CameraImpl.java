@@ -1,13 +1,22 @@
 package cn.lytcom.cameraview;
 
+import android.content.Context;
+import android.view.WindowManager;
+
 import java.util.Set;
 
 abstract class CameraImpl {
 
     CameraListener mCameraListener;
+    AutoFitTextureView mTextureView;
+    Context mContext;
+    WindowManager mWindowManager;
 
-    CameraImpl(CameraListener cameraListener) {
+    CameraImpl(CameraListener cameraListener, AutoFitTextureView autoFitTextureView) {
+        mContext = autoFitTextureView.getContext().getApplicationContext();
         mCameraListener = cameraListener;
+        mTextureView = autoFitTextureView;
+        mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
     }
 
     /**
@@ -41,6 +50,8 @@ abstract class CameraImpl {
     abstract int getFlash();
 
     abstract void takePicture();
+
+    abstract boolean isRecordingVideo();
 
     abstract void startRecordingVideo();
 
